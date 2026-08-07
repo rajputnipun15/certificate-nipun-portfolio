@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import CustomCursor from '@/components/ui/CustomCursor';
 import SmoothScroll from '@/components/ui/SmoothScroll';
 import { INITIAL_USER_PROFILE } from '@/lib/certificates-data';
+import { Analytics } from '@vercel/analytics/next';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -97,6 +98,7 @@ export default function RootLayout({
           <main className="flex-1 pt-24">{children}</main>
           <Footer />
         </SmoothScroll>
+        <Analytics />
       </body>
     </html>
   );
