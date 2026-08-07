@@ -13,7 +13,6 @@ This application exists solely to showcase verified professional certifications,
 - **Interactive PDF & Image Viewer**: High-resolution viewer with zooming, page navigation, fullscreen modal, and direct PDF downloads.
 - **AI/Regex Auto-Extraction Engine**: Upload a PDF or image in the Admin Dashboard, and the client parser automatically extracts Title, Organization, Credential ID, Issue Date, Verification Links, and Skill Tags.
 - **Hidden Admin Dashboard (`/admin`)**:
-  - Protected access with passcode / Supabase Auth (`passcode: nipun2026`).
   - Drag & drop multi-file upload for PDFs and images.
   - Live metadata editor & real-time publish without redeploying code.
   - Reorder, feature toggle, delete, and Google Drive URL update capabilities.
@@ -69,36 +68,3 @@ This application exists solely to showcase verified professional certifications,
 │   └── supabase.ts            # Supabase client helper
 └── public/
     └── certificates/          # 30 PDF and PNG certificate files
-```
-
----
-
-## 💻 Local Development Setup
-
-1. **Clone & Install Dependencies**:
-   ```bash
-   npm install
-   ```
-
-2. **Run Development Server**:
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-3. **Access Admin Panel**:
-   Navigate to `/admin` and enter passcode `nipun2026`.
-
----
-
-## ⚡ Deployment Guide (Vercel)
-
-1. Push your repository to GitHub.
-2. Import the repository in [Vercel](https://vercel.app).
-3. Set Node.js version to `20.x` or latest.
-4. Add environment variables from `.env.example` if using live Supabase/Cloudinary services.
-5. Click **Deploy**.
-
----
-
-© 2026 Nipun Kumar Kushwah. Built with precision and passion.
