@@ -1,16 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getStoredCertificates } from '@/lib/storage';
+import { fetchCertificatesApi } from '@/lib/storage';
+import { INITIAL_CERTIFICATES } from '@/lib/certificates-data';
 import { Certificate } from '@/lib/types';
 import CertificateGrid from '@/components/certificates/CertificateGrid';
-import { Award, Sparkles } from 'lucide-react';
+import { Award } from 'lucide-react';
 
 export default function CertificatesPage() {
-  const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [certificates, setCertificates] = useState<Certificate[]>(INITIAL_CERTIFICATES);
 
   useEffect(() => {
-    setCertificates(getStoredCertificates());
+    fetchCertificatesApi().then((data) => {
+      if (data && data.length > 0) {
+        setCertificates(data);
+      }
+    });
   }, []);
 
   return (

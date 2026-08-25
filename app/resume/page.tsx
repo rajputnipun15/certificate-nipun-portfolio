@@ -2,15 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { Download, ExternalLink, FileText, CheckCircle2, Award, Briefcase, GraduationCap, Github, Linkedin, Mail, Phone, Instagram, Code, Terminal, Layers } from 'lucide-react';
-import { getStoredProfile } from '@/lib/storage';
+import { fetchProfileApi } from '@/lib/storage';
+import { INITIAL_USER_PROFILE } from '@/lib/certificates-data';
 import { UserProfile } from '@/lib/types';
 import GlassCard from '@/components/ui/GlassCard';
 
 export default function ResumePage() {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<UserProfile>(INITIAL_USER_PROFILE);
 
   useEffect(() => {
-    setProfile(getStoredProfile());
+    fetchProfileApi().then((p) => {
+      if (p) setProfile(p);
+    });
   }, []);
 
   if (!profile) return null;

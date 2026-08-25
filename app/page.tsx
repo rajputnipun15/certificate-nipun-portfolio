@@ -4,18 +4,19 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Award, ArrowRight, Sparkles, FolderDown, ShieldCheck, Terminal, Cpu, Palette, Camera, Lock } from 'lucide-react';
-import { getStoredCertificates, getStoredProfile } from '@/lib/storage';
+import { fetchCertificatesApi, fetchProfileApi } from '@/lib/storage';
+import { INITIAL_CERTIFICATES, INITIAL_USER_PROFILE } from '@/lib/certificates-data';
 import { Certificate, UserProfile } from '@/lib/types';
 import CertificateCard from '@/components/certificates/CertificateCard';
 import GlassCard from '@/components/ui/GlassCard';
 
 export default function HomePage() {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [profile, setProfile] = useState<UserProfile>(INITIAL_USER_PROFILE);
+  const [certificates, setCertificates] = useState<Certificate[]>(INITIAL_CERTIFICATES);
 
   useEffect(() => {
-    setProfile(getStoredProfile());
-    setCertificates(getStoredCertificates());
+    fetchProfileApi().then((p) => p && setProfile(p));
+    fetchCertificatesApi().then((c) => c && c.length > 0 && setCertificates(c));
   }, []);
 
   const featuredCertificates = certificates.filter((c) => c.featured).slice(0, 6);

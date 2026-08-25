@@ -4,18 +4,22 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Cpu, Terminal, Sparkles, Palette, Shield, Code, ArrowRight } from 'lucide-react';
-import { SKILL_CATEGORIES } from '@/lib/certificates-data';
-import { getStoredCertificates } from '@/lib/storage';
+import { SKILL_CATEGORIES, INITIAL_CERTIFICATES } from '@/lib/certificates-data';
+import { fetchCertificatesApi } from '@/lib/storage';
 import { Certificate } from '@/lib/types';
 import GlassCard from '@/components/ui/GlassCard';
 import CertificateCard from '@/components/certificates/CertificateCard';
 
 export default function SkillsPage() {
-  const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [certificates, setCertificates] = useState<Certificate[]>(INITIAL_CERTIFICATES);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
 
   useEffect(() => {
-    setCertificates(getStoredCertificates());
+    fetchCertificatesApi().then((data) => {
+      if (data && data.length > 0) {
+        setCertificates(data);
+      }
+    });
   }, []);
 
   const matchingCertificates = selectedSkill

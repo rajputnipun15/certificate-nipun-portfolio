@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ExternalLink, Download, Copy, Check, ShieldCheck, Calendar, Award, Tag, Sparkles } from 'lucide-react';
-import { getStoredCertificates } from '@/lib/storage';
+import { fetchCertificateByIdApi } from '@/lib/storage';
+import { INITIAL_CERTIFICATES } from '@/lib/certificates-data';
 import { Certificate } from '@/lib/types';
 import PDFViewer from '@/components/certificates/PDFViewer';
 import GlassCard from '@/components/ui/GlassCard';
@@ -13,17 +14,19 @@ import Toast from '@/components/ui/Toast';
 
 export default function CertificateDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
-  const [certificate, setCertificate] = useState<Certificate | null>(null);
+  const [certificate, setCertificate] = useState<Certificate | null>(() => {
+    return INITIAL_CERTIFICATES.find((c) => c.id === resolvedParams.id) || null;
+  });
   const [copied, setCopied] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-    const certs = getStoredCertificates();
-    const found = certs.find((c) => c.id === resolvedParams.id);
-    if (found) {
-      setCertificate(found);
-    }
+    fetchCertificateByIdApi(resolvedParams.id).then((found) => {
+      if (found) {
+        setCertificate(found);
+      }
+    });
   }, [resolvedParams.id]);
 
   if (!certificate) {
