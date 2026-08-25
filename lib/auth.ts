@@ -10,8 +10,8 @@ const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
  * Validates the admin passcode against environment variable / default.
  */
 export const validateAdminPasscode = (passcode: string): boolean => {
-  if (!passcode) return false;
-  return passcode === ADMIN_PASSWORD || passcode === 'nipun2026';
+  if (!passcode || typeof passcode !== 'string') return false;
+  return passcode === ADMIN_PASSWORD;
 };
 
 /**
